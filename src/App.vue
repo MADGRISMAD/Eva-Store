@@ -1,5 +1,12 @@
 <script setup>
 
+import { ref, reactive} from 'vue'
+import {db} from './data/guitarras'
+
+
+const guitarras=ref(db)
+console.log(guitarras.value)
+
 </script>
 
 <template>
