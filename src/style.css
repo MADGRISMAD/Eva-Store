@@ -81,7 +81,7 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #e99401;
+  --bs-primary: #8400ff;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -157,7 +157,7 @@ body {
   font-family: "Outfit", sans-serif;
   font-weight: 900;
   line-height: 1.2;
-  color: #e99401;
+  color: #8400ff;
 }
 
 h1, .h1 {
