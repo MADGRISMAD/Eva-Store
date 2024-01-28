@@ -1,21 +1,24 @@
 <script setup>
 
-import { ref, reactive, onMounted} from 'vue'
-import {db} from './data/guitarras'
+import { ref, reactive, onMounted } from 'vue'
+import { db } from './data/guitarras'
 import Guitarra from './components/Guitarra.vue'
 
 
-const guitarras =ref([])
+const guitarras = ref([])
 
-onMounted(()=>{
-    guitarras.value=db
+onMounted(() => {
+    guitarras.value = db
 })
+
+const incrementar = () => {
+    alert("diste click")
+}
 
 </script>
 
 <template>
-  
-  <header class="py-5 header">
+    <header class="py-5 header">
         <div class="container-xl">
             <div class="row justify-content-center justify-content-md-between">
                 <div class="col-8 col-md-3">
@@ -24,9 +27,7 @@ onMounted(()=>{
                     </a>
                 </div>
                 <nav class="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
-                    <div 
-                        class="carrito"
-                    >
+                    <div class="carrito">
                         <img class="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" class="bg-white p-3">
@@ -48,28 +49,19 @@ onMounted(()=>{
                                         </td>
                                         <td>SRV</td>
                                         <td class="fw-bold">
-                                                $299
+                                            $299
                                         </td>
                                         <td class="flex align-items-start gap-4">
-                                            <button
-                                                type="button"
-                                                class="btn btn-dark"
-                                            >
+                                            <button type="button" class="btn btn-dark">
                                                 -
                                             </button>
-                                                1
-                                            <button
-                                                type="button"
-                                                class="btn btn-dark"
-                                            >
+                                            1
+                                            <button type="button" class="btn btn-dark">
                                                 +
                                             </button>
                                         </td>
                                         <td>
-                                            <button
-                                                class="btn btn-danger"
-                                                type="button"
-                                            >
+                                            <button class="btn btn-danger" type="button">
                                                 X
                                             </button>
                                         </td>
@@ -86,15 +78,16 @@ onMounted(()=>{
 
             <div class="row mt-5">
                 <div class="col-md-6 text-center text-md-start pt-5">
-                    <h1 class="display-2 fw-bold">Modelo VAI</h1>
-                    <p class="mt-5 fs-5 text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, possimus quibusdam dolor nemo velit quo, fuga omnis, iure molestias optio tempore sint at ipsa dolorum odio exercitationem eos inventore odit.</p>
-                    <p class="text-primary fs-1 fw-black">$399</p>
-                    <button 
-                        type="button"
-                        class="btn fs-4 bg-primary text-white py-2 px-5"
-                    >Agregar al Carrito</button>
+                    <h1 class="display-2 fw-bold">Figura de Shinji Ikari</h1>
+                    <p class="mt-5 fs-5 text-white">Colecciona la figura detallada de Shinji Ikari, el valiente piloto del
+                        Evangelion Unidad-01. Revive los momentos épicos de la serie mientras exploras la historia llena de
+                        intriga y emoción.</p>
+                    <p class="text-primary fs-1 fw-black">$299</p>
+                    <button type="button" class="btn fs-4 bg-primary text-white py-2 px-5"
+                        @click="addToCart(evangelionFigures[0])">Agregar al Carrito</button>
                 </div>
             </div>
+
         </div>
 
         <img class="header-guitarra" src="/img/header_guitarra.png" alt="imagen header">
@@ -104,12 +97,8 @@ onMounted(()=>{
         <h2 class="text-center">Nuestra Colección</h2>
 
         <div class="row mt-5">
-        <Guitarra 
-        v-for="guitarra in guitarras"
-        :guitarra="guitarra"
-        
-        ></Guitarra>
-            
+            <Guitarra v-for="guitarra in guitarras" :guitarra="guitarra"></Guitarra>
+
 
         </div>
     </main>
@@ -117,13 +106,9 @@ onMounted(()=>{
 
     <footer class="bg-dark mt-5 py-5">
         <div class="container-xl">
-            <p class="text-white text-center fs-4 mt-4 m-md-0">GuitarLA - Todos los derechos Reservados</p>
+            <p class="text-white text-center fs-4 mt-4 m-md-0">EvaStore - Todos los derechos Reservados</p>
         </div>
     </footer>
-    
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>
