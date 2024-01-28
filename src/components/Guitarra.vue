@@ -2,6 +2,7 @@
 
 <script setup>
 
+import Swal from 'sweetalert2'
 
     const props = defineProps({
         guitarra: {

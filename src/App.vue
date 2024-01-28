@@ -9,10 +9,21 @@ import Footer from './components/Footer.vue'
 
 const guitarras = ref([])
 const carrito = ref([])
+const guitarra =ref({})
 
 onMounted(() => {
     guitarras.value = db
+    guitarra.value = guitarras.value[8]
+    const carritoLocalStorage = localStorage.getItem('carrito')
+    if (carritoLocalStorage) {
+        carrito.value = JSON.parse(carritoLocalStorage)
+    }
+
+
 })
+const guardarLocalStorage = () => {
+    localStorage.setItem('carrito', JSON.stringify(carrito.value))
+}
 
 const agregarCarrito = (guitarra) => {
     const existeCarrito = carrito.value.findIndex(producto => producto.id === guitarra.id)
@@ -23,14 +34,54 @@ const agregarCarrito = (guitarra) => {
         guitarra.cantidad = 1
         carrito.value.push(guitarra)
     }
+    guardarLocalStorage()
     
 }
+
+const decrementarCantidad = (id) => {
+    const index = carrito.value.findIndex(producto => producto.id === id)
+    if (carrito.value[index].cantidad <= 1) return
+    carrito.value[index].cantidad--
+    guardarLocalStorage()
+
+}
+
+const incrementarCantidad = (id) => {
+    const index = carrito.value.findIndex(producto => producto.id === id)
+    if (carrito.value[index].cantidad >= 5) return
+    carrito.value[index].cantidad++
+    guardarLocalStorage()
+}
+
+const eliminarProducto = (id) => {
+    carrito.value= carrito.value.filter(producto => producto.id!== id)
+    guardarLocalStorage()
+}   
+const eliminarCarrito = () => {
+    carrito.value = []
+    guardarLocalStorage()
+}
+
+
+    
+
 
 
 </script>
 
 <template>
-    <Header :carrito="carrito" />
+    <Header :carrito="carrito" 
+    :guitarra="guitarra"
+    @decrementar-cantidad="decrementarCantidad"
+    @incrementar-cantidad="incrementarCantidad"
+    @agregar-carrito="agregarCarrito"
+    @eliminar-producto="eliminarProducto"
+    @eliminar-carrito="eliminarCarrito"
+    
+
+    
+    
+    />
 
     <main class="container-xl mt-5">
         <h2 class="text-center">Nuestra Colección</h2>

@@ -1,10 +1,20 @@
 <script setup>
+import { computed } from 'vue'
 
 const props = defineProps({
     carrito: {
         type: Array,
         required: true
+    },
+    guitarra: {
+        type: Object,
+        required: true
     }
+})
+defineEmits(['decrementar-cantidad', 'incrementar-cantidad', 'agregar-carrito', 'eliminar-producto', 'eliminar-carrito'])
+
+const totalPagar = computed(() => {
+    return props.carrito.reduce((total, producto) => total + (producto.cantidad * producto.precio), 0)
 })
 
 </script>
@@ -22,7 +32,7 @@ const props = defineProps({
                         <img class="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" class="bg-white p-3">
-                            <p v-if="carrito.length ===0" class="text-center m-0">El carrito esta vacio</p>
+                            <p v-if="carrito.length === 0" class="text-center m-0">El carrito esta vacio</p>
 
                             <div v-else>
                                 <table class="w-100 table">
@@ -36,34 +46,29 @@ const props = defineProps({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr
-                                        v-for="producto in carrito"
-                                        
-                                        >
+                                        <tr v-for="producto in carrito">
                                             <td>
-                                                <img 
-                               
-                                                class="img-fluid" 
-                                                :src="'/img/'+producto.imagen+'.jpg'"
-                                                :alt="'imagen guitarra'+ producto.nombre"
-                                                
-                                                >
+                                                <img class="img-fluid" :src="'/img/' + producto.imagen + '.jpg'"
+                                                    :alt="'imagen guitarra' + producto.nombre">
                                             </td>
                                             <td>{{ producto.nombre }}</td>
                                             <td class="fw-bold">
-                                                {{producto.precio}}
+                                                {{ producto.precio }}
                                             </td>
                                             <td class="flex align-items-start gap-4">
-                                                <button type="button" class="btn btn-dark">
+                                                <button type="button" class="btn btn-dark"
+                                                    @click="$emit('decrementar-cantidad', producto.id)">
                                                     -
                                                 </button>
                                                 {{ producto.cantidad }}
-                                                <button type="button" class="btn btn-dark">
+                                                <button type="button" class="btn btn-dark"
+                                                    @click="$emit('incrementar-cantidad', producto.id)">
                                                     +
                                                 </button>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger" type="button">
+                                                <button class="btn btn-danger" type="button"
+                                                @click="$emit('eliminar-producto', producto.id)">
                                                     X
                                                 </button>
                                             </td>
@@ -71,8 +76,10 @@ const props = defineProps({
                                     </tbody>
                                 </table>
 
-                                <p class="text-end">Total pagar: <span class="fw-bold">$899</span></p>
-                                <button class="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                                <p class="text-end">Total pagar: <span class="fw-bold">${{totalPagar}}</span></p>
+                                <button class="btn btn-dark w-100 mt-3 p-2"
+                                @click="$emit('eliminar-carrito')"
+                                >Vaciar Carrito</button>
                             </div>
                         </div>
                     </div>
@@ -81,13 +88,11 @@ const props = defineProps({
 
             <div class="row mt-5">
                 <div class="col-md-6 text-center text-md-start pt-5">
-                    <h1 class="display-2 fw-bold">Figura de Shinji Ikari</h1>
-                    <p class="mt-5 fs-5 text-white">Colecciona la figura detallada de Shinji Ikari, el valiente piloto del
-                        Evangelion Unidad-01. Revive los momentos épicos de la serie mientras exploras la historia llena de
-                        intriga y emoción.</p>
-                    <p class="text-primary fs-1 fw-black">$299</p>
+                    <h1 class="display-2 fw-bold">Figura de {{ guitarra.nombre }}</h1>
+                    <p class="mt-5 fs-5 text-white">{{ guitarra.descripcion }}</p>
+                    <p class="text-primary fs-1 fw-black">${{ guitarra.precio }}</p>
                     <button type="button" class="btn fs-4 bg-primary text-white py-2 px-5"
-                        @click="addToCart(evangelionFigures[0])">Agregar al Carrito</button>
+                        @click="$emit('agregar-carrito', guitarra)">Agregar al Carrito</button>
                 </div>
             </div>
 
